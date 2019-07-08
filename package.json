@@ -1,0 +1,57 @@
+{
+  "name": "play-the-mind",
+  "version": "0.0.1",
+  "description": "Frontend for The Mind Card Game (unofficial)",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tehpsalmist/play-the-mind.git"
+  },
+  "keywords": [
+    "cards",
+    "game",
+    "react",
+    "parcel",
+    "graphql",
+    "hasura"
+  ],
+  "author": "Ben Steward <bstewardcodes@gmail.com> (https://tehpsalmist.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tehpsalmist/play-the-mind/issues"
+  },
+  "homepage": "https://github.com/tehpsalmist/play-the-mind#readme",
+  "dependencies": {
+    "@auth0/auth0-spa-js": "^1.0.2",
+    "@babel/runtime-corejs2": "^7.5.1",
+    "apollo-boost": "^0.4.3",
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link": "^1.2.12",
+    "apollo-link-http": "^1.5.15",
+    "apollo-link-ws": "^1.0.18",
+    "apollo-utilities": "^1.3.2",
+    "graphql": "^14.4.2",
+    "graphql-tag": "^2.10.1",
+    "react": "^16.8.6",
+    "react-apollo": "^2.5.8",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
+    "subscriptions-transport-ws": "^0.9.16"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.0",
+    "@fullhuman/postcss-purgecss": "^1.2.0",
+    "autoprefixer": "^9.6.1",
+    "babel-preset-env": "^1.7.0",
+    "parcel-bundler": "^1.12.3",
+    "postcss": "^7.0.17",
+    "tailwindcss": "^1.0.4"
+  },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ]
+}
