@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { ApolloConsumer, Subscription } from 'react-apollo'
 import gql from 'graphql-tag'
-import { useAuth0 } from '../auth/Auth'
-import { changeSubscriptionToken } from '../App'
 
 const getGame = gameId => gql`
   subscription {
@@ -25,12 +23,6 @@ const getGame = gameId => gql`
 `
 
 export const Game = ({ match }) => {
-  const { idToken } = useAuth0()
-
-  useEffect(() => {
-    changeSubscriptionToken(idToken)
-  }, [idToken])
-
   return <ApolloConsumer>
     {client => <Subscription subscription={getGame(match.params.id)} shouldResubscribe>
       {({ loading, error, data }) => {

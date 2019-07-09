@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react'
 import createAuth0Client from '@auth0/auth0-spa-js'
 import { withRouter } from 'react-router-dom'
+import { useApolloClient } from '../hooks'
+import gql from 'graphql-tag'
+
+const TOKEN_QUERY = gql`
+  query getIdToken {
+    idToken @client
+  }
+`
 
 export const Auth0Context = React.createContext()
 export const useAuth0 = () => useContext(Auth0Context)
+
 export const Auth0Provider = withRouter(({
   children,
   history,
@@ -12,11 +21,20 @@ export const Auth0Provider = withRouter(({
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState()
   const [user, setUser] = useState()
-  const [idToken, setIdToken] = useState()
+  const [idToken, setIdToken] = useState('')
   const [authAppState, setAuthAppState] = useState()
   const [auth0Client, setAuth0] = useState()
   const [loading, setLoading] = useState(true)
   const [popupOpen, setPopupOpen] = useState(false)
+  const [apolloClient, setApolloClient] = useApolloClient()
+
+  const { idToken: cachedIdToken } = apolloClient.readQuery({ query: TOKEN_QUERY })
+
+  if (idToken !== cachedIdToken) {
+    apolloClient.clearStore()
+    apolloClient.stop()
+    setApolloClient(idToken)
+  }
 
   useEffect(() => {
     const initAuth0 = async () => {
@@ -91,6 +109,7 @@ export const Auth0Provider = withRouter(({
         isAuthenticated,
         user,
         idToken,
+        apolloClient,
         loading,
         popupOpen,
         loginWithPopup,
@@ -101,7 +120,10 @@ export const Auth0Provider = withRouter(({
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
         getTokenSilently: async (...p) => auth0Client && auth0Client.getTokenSilently(...p),
         getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
-        logout: (...p) => auth0Client.logout(...p)
+        logout: (...p) => {
+          window.localStorage.removeItem('idToken')
+          auth0Client.logout(...p)
+        }
       }}
     >
       {children}

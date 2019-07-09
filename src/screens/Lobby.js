@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { ApolloConsumer, Subscription } from 'react-apollo'
 import gql from 'graphql-tag'
 import { useAuth0 } from '../auth/Auth'
-import { changeSubscriptionToken } from '../App'
+import { PleaseLogin } from '../auth/PleaseLogin'
 
 const ALL_GAMES = gql`
   subscription {
@@ -24,17 +24,14 @@ const ALL_GAMES = gql`
 export const Lobby = props => {
   const { idToken } = useAuth0()
 
-  useEffect(() => {
-    changeSubscriptionToken(idToken)
-  }, [idToken])
-
   return <ApolloConsumer>
     {client => <>
       <p className='text-center'>Play the Mind. Become the Mind.</p>
-      <Subscription subscription={ALL_GAMES}>
+      <Subscription subscription={ALL_GAMES} shouldResubscribe>
         {({ loading, error, data }) => {
           if (loading) return 'Finding Games...'
           if (error) return `Error! ${error.message}`
+          if (!idToken) return <PleaseLogin />
           if (!data) return `No Games at this time`
 
           return (
