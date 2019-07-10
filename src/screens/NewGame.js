@@ -8,14 +8,35 @@ export const NewGame = withRouter(withApollo(({ client, history }) => {
   const [players, setPlayers] = useState(null)
   const [gameName, setGameName] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const { idToken } = useAuth0()
+  const { idToken, user } = useAuth0()
+  const [isUserSet, setIsUserSet] = useState(false)
+  const [playerName, setPlayerName] = useState('')
 
-  const createGame = async (count, name) => {
-    const variables = { name, count }
+  if (!isUserSet && user) {
+    if (playerName === '') {
+      setPlayerName(user.name || user.nickname || user.given_name)
+    }
+
+    setIsUserSet(true)
+  }
+
+  const createGame = async ({ count, name, userName }) => {
+    const variables = { name, count, userName }
 
     const mutation = gql`
-      mutation insert_games($count: Int, $name: String) {
-        insert_games(objects: {player_count: $count, name: $name, lives: $count}) {
+      mutation insert_games($count: Int, $name: String, $userName: String) {
+        insert_games(
+          objects: {
+            player_count: $count,
+            name: $name,
+            lives: $count,
+            players: {
+              data: {
+                name: $userName
+              }
+            }
+          }
+        ) {
           returning {
             id
           }
@@ -25,12 +46,7 @@ export const NewGame = withRouter(withApollo(({ client, history }) => {
 
     const result = await client.mutate({
       mutation,
-      variables,
-      context: {
-        headers: {
-          Authorization: `Bearer ${idToken}`
-        }
-      }
+      variables
     }).catch(err => err instanceof Error ? err : new Error(JSON.stringify(err)))
 
     if (result instanceof Error) {
@@ -47,7 +63,7 @@ export const NewGame = withRouter(withApollo(({ client, history }) => {
   return <main className='flex-center flex-col'>
     <label className='text-xl my-2'>Name Your Game</label>
     <input
-      className='text-2xl my-2 border rounded border-blue-600'
+      className='text-2xl my-2 p-2 border rounded border-blue-600'
       value={gameName}
       onChange={e => {
         setGameName(e.target.value)
@@ -84,9 +100,18 @@ export const NewGame = withRouter(withApollo(({ client, history }) => {
         4
       </button>
     </div>
+    <label className='text-xl my-2'>Your Player Name</label>
+    <input
+      className='text-2xl my-2 p-2 border rounded border-blue-600'
+      value={playerName}
+      onChange={e => {
+        setPlayerName(e.target.value)
+        setErrorMessage('')
+      }}
+    />
     <button
-      className={`${players && gameName ? 'bg-green-500' : 'bg-gray-600'} p-6 rounded text-white text-3xl my-2`}
-      onClick={() => players && gameName && createGame(players, gameName)}
+      className={`${players && gameName && playerName ? 'bg-green-500' : 'bg-gray-600'} p-6 rounded text-white text-3xl my-2`}
+      onClick={() => players && gameName && playerName && createGame({ count: players, name: gameName, userName: playerName })}
     >
       Create Game
     </button>

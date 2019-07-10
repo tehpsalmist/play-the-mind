@@ -7,6 +7,8 @@ export const Profile = props => {
   if (loading) return 'Loading...'
 
   return <main>
-    <code>{JSON.stringify(user)}</code>
+    <ul>
+      {Object.keys(user).map(key => <li key={key}><code>{JSON.stringify({ [key]: user[key] }, null, 2)}</code></li>)}
+    </ul>
   </main>
 }

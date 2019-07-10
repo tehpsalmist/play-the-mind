@@ -31,9 +31,11 @@ export const Auth0Provider = withRouter(({
   const { idToken: cachedIdToken } = apolloClient.readQuery({ query: TOKEN_QUERY })
 
   if (idToken !== cachedIdToken) {
-    apolloClient.clearStore()
     apolloClient.stop()
-    setApolloClient(idToken)
+    setApolloClient(idToken || '')
+    if (idToken === null || idToken === undefined) {
+      setIdToken('')
+    }
   }
 
   useEffect(() => {
@@ -77,9 +79,12 @@ export const Auth0Provider = withRouter(({
       await auth0Client.loginWithPopup(params)
     } catch (error) {
       console.error('popup error', error)
-    } finally {
-      setPopupOpen(false)
+      setIdToken('')
+      window.localStorage.setItem('idToken', '')
+      return setIsAuthenticated(false)
     }
+
+    setPopupOpen(false)
 
     const [user, token] = await Promise.all([auth0Client.getUser(), auth0Client.getIdToken()])
 

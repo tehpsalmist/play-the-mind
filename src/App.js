@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, NavLink, withRouter } from 'react-router-dom'
 import { NewGame, Lobby, Game, Profile } from './screens'
 import { ApolloProvider } from 'react-apollo'
 import { useAuth0 } from './auth/Auth'
@@ -20,10 +20,10 @@ export default props => {
         {!isAuthenticated && <button className='p-4 hover:bg-gray-700' onClick={() => loginWithPopup({})}>Login</button>}
       </nav>
       <Switch>
-        <PrivateRoute path='/new-game' component={NewGame} />
-        <PrivateRoute path='/profile' component={Profile} />
-        <PrivateRoute path='/game/:id' component={Game} />
-        <Route exact path='/' component={Lobby} />
+        <PrivateRoute path='/new-game' component={withRouter(NewGame)} />
+        <PrivateRoute path='/profile' component={withRouter(Profile)} />
+        <PrivateRoute path='/game/:id' component={withRouter(Game)} />
+        <Route exact path='/' component={withRouter(Lobby)} />
       </Switch>
     </Router>
   </ApolloProvider>

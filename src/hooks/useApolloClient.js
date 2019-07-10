@@ -12,7 +12,10 @@ const initialToken = window.localStorage.getItem('idToken')
 const createClient = token => {
   // Create an http link:
   const httpLink = new HttpLink({
-    uri: 'https://the-mind.herokuapp.com/v1/graphql'
+    uri: 'https://the-mind.herokuapp.com/v1/graphql',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   })
 
   // Create a WebSocket link:
