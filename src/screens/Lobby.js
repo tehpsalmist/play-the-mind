@@ -73,7 +73,7 @@ const LEAVE_GAME = gql`
   }
 `
 
-export const Lobby = props => {
+export const Lobby = ({ history }) => {
   const { idToken, user } = useAuth0()
 
   return <ApolloConsumer>
@@ -100,8 +100,11 @@ export const Lobby = props => {
                   <Mutation mutation={JOIN_GAME}>
                     {(joinGame, { data, called, loading }) => {
                       if (called && data) {
-                        console.log(data)
+                        const gameId = data.insert_players.returning[0].game.id
+
+                        history.push(`/game/${gameId}`)
                       }
+
                       return <button
                         className={`p-2 ${loading ? 'bg-gray-600' : 'bg-blue-500'} text-white rounded`}
                         onClick={e => {

@@ -1,34 +1,48 @@
 import React from 'react'
 import { ApolloConsumer, Subscription } from 'react-apollo'
 import gql from 'graphql-tag'
+import { GamePrepGuest, GamePrepHost } from '../components'
+import { useAuth0 } from '../auth/Auth'
 
 const GAME = gql`
   subscription games_by_pk($gameId: Int!) {
     games_by_pk(id: $gameId) {
       id
       name
-      created
-      started
-      finished
-      lives
-      stars
-      owner_id
       player_count
-      ready
-      round {
-        number_of_cards
-        reward
-      }
       players {
         id
         name
+        user_id
         cards
       }
+      lives
+      is_full
+      stars
+      created
+      round {
+        number_of_cards
+        is_blind
+        reward
+      }
+      finished
+      owner_id
+      plays(order_by: {round_id: asc}) {
+        id
+        out_of_order
+        penalized
+        round_id
+        timestamp
+        value
+      }
+      ready
+      started
     }
   }
 `
 
 export const Game = ({ match }) => {
+  const { user } = useAuth0()
   return <ApolloConsumer>
     {client => <Subscription subscription={GAME} variables={{ gameId: +match.params.id }} shouldResubscribe>
       {({ loading, error, data }) => {
@@ -38,7 +52,8 @@ export const Game = ({ match }) => {
 
         const { games_by_pk: game } = data
 
-        console.log(game)
+        if (!game.started) return game.owner_id === user.sub ? <GamePrepHost game={game} /> : <GamePrepGuest game={game} />
+
         return <p>{JSON.stringify(game, null, 2)}</p>
       }}
     </Subscription>}

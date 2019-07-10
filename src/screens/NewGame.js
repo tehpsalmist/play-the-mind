@@ -8,7 +8,7 @@ export const NewGame = withRouter(withApollo(({ client, history }) => {
   const [players, setPlayers] = useState(null)
   const [gameName, setGameName] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const { idToken, user } = useAuth0()
+  const { user } = useAuth0()
   const [isUserSet, setIsUserSet] = useState(false)
   const [playerName, setPlayerName] = useState('')
 
