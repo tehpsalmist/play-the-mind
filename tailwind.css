@@ -1,5 +1,9 @@
 @tailwind base;
 
+main {
+  height: calc(100vh - 3.5rem);
+}
+
 @tailwind components;
 
 @tailwind utilities;

@@ -20,7 +20,7 @@ const USER_GAMES = gql`
       is_full
       owner_id
       stars
-      created
+      created_at
       round {
         number_of_cards
         is_blind
@@ -43,7 +43,7 @@ const AVAILABLE_GAMES = gql`
       lives
       is_full
       stars
-      created
+      created_at
       round {
         number_of_cards
         is_blind
@@ -125,7 +125,8 @@ export const Lobby = ({ history }) => {
         </Subscription>
         <Subscription subscription={USER_GAMES} variables={{ userId: user && user.sub }} shouldResubscribe>
           {({ loading, error, data }) => {
-            if (loading) return 'Finding Games...'
+            if (error) return `Error: ${error.message}`
+            if (loading || !data) return 'Finding Games...'
 
             return (<>
               {data.games
