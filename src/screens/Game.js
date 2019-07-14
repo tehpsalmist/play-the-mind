@@ -9,35 +9,47 @@ const GAME = gql`
     games_by_pk(id: $gameId) {
       id
       name
+      is_full
+      lives
+      stars
+      started
+      ready
+      in_conflict
+      transitioning_round
+      finished
       player_count
       players {
         id
         name
         user_id
+        suggesting_star
         cards
+        ready
       }
-      lives
-      is_full
-      stars
-      created_at
-      finished_at
       round {
+        id
         number_of_cards
         is_blind
         reward
       }
-      finished
-      owner_id
-      plays(order_by: {round_id: asc}) {
+      plays(order_by: {timestamp: desc, round_id: desc}) {
         id
-        out_of_order
-        penalized
+        player_id
+        reconciled
         round_id
         timestamp
         value
       }
-      ready
-      started
+      revealed_cards(order_by: {timestamp: desc, round_id: desc}) {
+        id
+        player_id
+        round_id
+        timestamp
+        value
+      }
+      finished_at
+      created_at
+      owner_id
     }
   }
 `
@@ -55,7 +67,7 @@ export const Game = ({ match }) => {
         const { games_by_pk: game } = data
         const isOwner = game.owner_id === user.sub
 
-        if (!game.started) return isOwner ? <GamePrepHost game={game} /> : <GamePrepGuest game={game} />
+        if (!game.started || !game.round) return isOwner ? <GamePrepHost game={game} /> : <GamePrepGuest game={game} />
 
         return <GameBoard game={game} isOwner={isOwner} />
       }}

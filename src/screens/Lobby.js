@@ -57,9 +57,6 @@ const JOIN_GAME = gql`
     insert_players(objects: {game_id: $gameId, name: $name}) {
       returning {
         id
-        game {
-          id
-        }
       }
     }
   }
@@ -74,14 +71,18 @@ const LEAVE_GAME = gql`
 `
 
 export const Lobby = ({ history }) => {
-  const { idToken, user } = useAuth0()
+  const { authToken, user } = useAuth0()
 
   return <ApolloConsumer>
     {client => <>
       <p className='text-center'>Play the Mind. Become the Mind.</p>
-      {!idToken ? <PleaseLogin /> : <ul className='w-full flex flex-col-reverse items-stretch'>
+      {!authToken ? <PleaseLogin /> : <ul className='w-full flex flex-col-reverse items-stretch'>
         <Subscription subscription={AVAILABLE_GAMES} variables={{ userId: user && user.sub }} shouldResubscribe>
           {({ loading, error, data }) => {
+            if (error) {
+              console.log(error)
+              return null
+            }
             if (loading || error || !data) return null
 
             return (<>
@@ -100,7 +101,7 @@ export const Lobby = ({ history }) => {
                   <Mutation mutation={JOIN_GAME}>
                     {(joinGame, { data, called, loading }) => {
                       if (called && data) {
-                        const gameId = data.insert_players.returning[0].game.id
+                        const gameId = game.id
 
                         history.push(`/game/${gameId}`)
                       }
