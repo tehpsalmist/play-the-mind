@@ -54,7 +54,7 @@ const AVAILABLE_GAMES = gql`
 
 const JOIN_GAME = gql`
   mutation insert_players($gameId: Int, $name: String) {
-    insert_players(objects: {game_id: $gameId, name: $name}) {
+    insert_players(objects: {game_id: $gameId, name: $name, cards: "{}"}) {
       returning {
         id
       }
@@ -77,7 +77,7 @@ export const Lobby = ({ history }) => {
     {client => <>
       <p className='text-center'>Play the Mind. Become the Mind.</p>
       {!authToken ? <PleaseLogin /> : <ul className='w-full flex flex-col-reverse items-stretch'>
-        <Subscription subscription={AVAILABLE_GAMES} variables={{ userId: user && user.sub }} shouldResubscribe>
+        <Subscription subscription={AVAILABLE_GAMES} variables={{ userId: user && user.sub }} fetchPolicy='no-cache'>
           {({ loading, error, data }) => {
             if (error) {
               console.log(error)
@@ -124,7 +124,7 @@ export const Lobby = ({ history }) => {
             </>)
           }}
         </Subscription>
-        <Subscription subscription={USER_GAMES} variables={{ userId: user && user.sub }} shouldResubscribe>
+        <Subscription subscription={USER_GAMES} variables={{ userId: user && user.sub }} fetchPolicy='no-cache'>
           {({ loading, error, data }) => {
             if (error) return `Error: ${error.message}`
             if (loading || !data) return 'Finding Games...'

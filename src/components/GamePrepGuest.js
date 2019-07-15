@@ -13,7 +13,7 @@ const LEAVE_GAME = gql`
 
 const JOIN_GAME = gql`
   mutation insert_players($gameId: Int, $name: String) {
-    insert_players(objects: {game_id: $gameId, name: $name}) {
+    insert_players(objects: {game_id: $gameId, name: $name, cards: "{}"}) {
       returning {
         id
         game {
