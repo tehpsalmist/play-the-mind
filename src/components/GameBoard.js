@@ -59,7 +59,7 @@ export const GameBoard = ({ game, isOwner }) => {
 
                   return (!called || error) ? <button
                     className={`border-4 border-black p-3 rounded`}
-                    onClick={() => !loading && game.ready && playCard()}
+                    onClick={() => !loading && game.ready && !game.in_conflict && playCard()}
                   >
                     {card}
                   </button> : null
@@ -78,7 +78,7 @@ export const GameBoard = ({ game, isOwner }) => {
                 className={`mt-auto p-3 ${player.ready ? 'bg-red-500' : 'bg-green-500'} rounded text-white`}
                 onClick={() => toggleReadyState()}
               >
-                {player.ready ? 'Regain Concentration' : 'Ready'}
+                {player.ready ? 'Declare Concentration' : 'Ready'}
               </button>
             }}
           </Mutation>}
@@ -91,7 +91,7 @@ export const GameBoard = ({ game, isOwner }) => {
 
               return <button
                 className={`mt-2 p-3 ${player.suggesting_star ? 'bg-purple-500' : 'bg-blue-500'} rounded text-white`}
-                onClick={() => toggleSuggestingStar()}
+                onClick={() => !game.in_conflict && toggleSuggestingStar()}
               >
                 {player.suggesting_star ? 'Withdraw Star Suggestion' : 'Let\'s throw a star!'}
               </button>
