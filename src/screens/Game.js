@@ -1,7 +1,7 @@
 import React from 'react'
 import { ApolloConsumer, Subscription } from 'react-apollo'
 import gql from 'graphql-tag'
-import { GamePrepGuest, GamePrepHost, GameBoard } from '../components'
+import { GamePrepGuest, GamePrepHost, GameBoard, FinishedGame } from '../components'
 import { useAuth0 } from '../auth/Auth'
 
 const GAME = gql`
@@ -25,11 +25,18 @@ const GAME = gql`
         suggesting_star
         cards
         ready
+        revealed_cards(order_by: {timestamp: desc, round_id: desc}) {
+          id
+          round_id
+          timestamp
+          value
+        }
       }
       round {
         id
         number_of_cards
         is_blind
+        name
         reward
       }
       plays(order_by: {timestamp: desc, round_id: desc}) {
@@ -37,13 +44,12 @@ const GAME = gql`
         player_id
         reconciled
         round_id
-        timestamp
-        value
-      }
-      revealed_cards(order_by: {timestamp: desc, round_id: desc}) {
-        id
-        player_id
-        round_id
+        round {
+          name
+        }
+        player {
+          name
+        }
         timestamp
         value
       }
@@ -68,6 +74,8 @@ export const Game = ({ match }) => {
         const isOwner = game.owner_id === user.sub
 
         if (!game.started || !game.round) return isOwner ? <GamePrepHost game={game} /> : <GamePrepGuest game={game} />
+
+        if (game.finished) return <FinishedGame game={game} />
 
         return <GameBoard game={game} isOwner={isOwner} />
       }}

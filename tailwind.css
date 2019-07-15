@@ -2,9 +2,16 @@
 
 main {
   height: calc(100vh - 3.5rem);
+  @apply p-1;
 }
 
 @tailwind components;
+
+.play-order-grid {
+  display: grid;
+  grid-template: 1fr / 60px 1fr 1fr;
+  @apply justify-center content-center items-center text-center rounded border mb-1 p-1;
+}
 
 @tailwind utilities;
 
