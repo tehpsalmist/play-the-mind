@@ -7,7 +7,7 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 
 const cache = new InMemoryCache()
-const initialToken = window.localStorage.getItem('idToken')
+const initialToken = window.localStorage.getItem('authToken')
 
 const createClient = token => {
   // Create an http link:
@@ -58,7 +58,7 @@ const firstClient = createClient(initialToken)
 
 firstClient.writeData({
   data: {
-    idToken: initialToken
+    authToken: initialToken
   }
 })
 
@@ -70,7 +70,7 @@ export const useApolloClient = () => {
 
     newClient.writeData({
       data: {
-        idToken: newToken
+        authToken: newToken
       }
     })
 

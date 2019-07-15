@@ -5,8 +5,8 @@ import { useApolloClient } from '../hooks'
 import gql from 'graphql-tag'
 
 const TOKEN_QUERY = gql`
-  query getIdToken {
-    idToken @client
+  query getAuthToken {
+    authToken @client
   }
 `
 
@@ -21,20 +21,20 @@ export const Auth0Provider = withRouter(({
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState()
   const [user, setUser] = useState()
-  const [idToken, setIdToken] = useState('')
+  const [authToken, setAuthToken] = useState('')
   const [authAppState, setAuthAppState] = useState()
   const [auth0Client, setAuth0] = useState()
   const [loading, setLoading] = useState(true)
   const [popupOpen, setPopupOpen] = useState(false)
   const [apolloClient, setApolloClient] = useApolloClient()
 
-  const { idToken: cachedIdToken } = apolloClient.readQuery({ query: TOKEN_QUERY })
+  const { authToken: cachedAuthToken } = apolloClient.readQuery({ query: TOKEN_QUERY })
 
-  if (idToken !== cachedIdToken) {
+  if (authToken !== cachedAuthToken) {
     apolloClient.stop()
-    setApolloClient(idToken || '')
-    if (idToken === null || idToken === undefined) {
-      setIdToken('')
+    setApolloClient(authToken || '')
+    if (authToken === null || authToken === undefined) {
+      setAuthToken('')
     }
   }
 
@@ -56,11 +56,11 @@ export const Auth0Provider = withRouter(({
       setIsAuthenticated(isAuthenticated)
 
       if (isAuthenticated) {
-        const [user, fetchedToken] = await Promise.all([auth0FromHook.getUser(), auth0FromHook.getIdToken()])
+        const [user, fetchedToken] = await Promise.all([auth0FromHook.getUser(), auth0FromHook.getTokenSilently()])
 
         setUser(user)
-        setIdToken(fetchedToken)
-        window.localStorage.setItem('idToken', fetchedToken)
+        setAuthToken(fetchedToken)
+        window.localStorage.setItem('authToken', fetchedToken)
       }
 
       setLoading(false)
@@ -79,17 +79,17 @@ export const Auth0Provider = withRouter(({
       await auth0Client.loginWithPopup(params)
     } catch (error) {
       console.error('popup error', error)
-      setIdToken('')
-      window.localStorage.setItem('idToken', '')
+      setAuthToken('')
+      window.localStorage.setItem('authToken', '')
       return setIsAuthenticated(false)
     }
 
     setPopupOpen(false)
 
-    const [user, token] = await Promise.all([auth0Client.getUser(), auth0Client.getIdToken()])
+    const [user, token] = await Promise.all([auth0Client.getUser(), auth0Client.getTokenSilently()])
 
-    setIdToken(token)
-    window.localStorage.setItem('idToken', token)
+    setAuthToken(token)
+    window.localStorage.setItem('authToken', token)
     setUser(user)
     setIsAuthenticated(true)
   }
@@ -98,11 +98,11 @@ export const Auth0Provider = withRouter(({
     setLoading(true)
 
     const { appState } = await auth0Client.handleRedirectCallback()
-    const [user, token] = await Promise.all([auth0Client.getUser(), auth0Client.getIdToken()])
+    const [user, token] = await Promise.all([auth0Client.getUser(), auth0Client.getTokenSilently()])
 
     setLoading(false)
-    setIdToken(token)
-    window.localStorage.setItem('idToken', token)
+    setAuthToken(token)
+    window.localStorage.setItem('authToken', token)
     setAuthAppState(appState)
     setIsAuthenticated(true)
     setUser(user)
@@ -113,7 +113,7 @@ export const Auth0Provider = withRouter(({
       value={{
         isAuthenticated,
         user,
-        idToken,
+        authToken,
         apolloClient,
         loading,
         popupOpen,
@@ -126,7 +126,7 @@ export const Auth0Provider = withRouter(({
         getTokenSilently: async (...p) => auth0Client && auth0Client.getTokenSilently(...p),
         getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
         logout: (...p) => {
-          window.localStorage.removeItem('idToken')
+          window.localStorage.removeItem('authToken')
           auth0Client.logout(...p)
         }
       }}
