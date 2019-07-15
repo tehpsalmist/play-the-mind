@@ -1,0 +1,32 @@
+{
+  "name": "play-the-mind",
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/**",
+      "use": "@now/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.+\\.css|.+\\.js)",
+      "methods": [
+        "GET"
+      ],
+      "dest": "dist/$1"
+    },
+    {
+      "src": "/(.*)",
+      "methods": [
+        "GET"
+      ],
+      "dest": "dist/index.html"
+    }
+  ],
+  "alias": [
+    "play-the-mind"
+  ],
+  "regions": [
+    "all"
+  ]
+}
