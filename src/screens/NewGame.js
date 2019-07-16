@@ -32,8 +32,7 @@ export const NewGame = withRouter(withApollo(({ client, history }) => {
             lives: $count,
             players: {
               data: {
-                name: $userName,
-                cards: "{}"
+                name: $userName
               }
             }
           }

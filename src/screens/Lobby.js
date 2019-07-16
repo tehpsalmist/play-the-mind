@@ -21,6 +21,7 @@ const USER_GAMES = gql`
       owner_id
       stars
       created_at
+      finished
       round {
         number_of_cards
         is_blind
@@ -54,7 +55,7 @@ const AVAILABLE_GAMES = gql`
 
 const JOIN_GAME = gql`
   mutation insert_players($gameId: Int, $name: String) {
-    insert_players(objects: {game_id: $gameId, name: $name, cards: "{}"}) {
+    insert_players(objects: {game_id: $gameId, name: $name}) {
       returning {
         id
       }
@@ -103,7 +104,9 @@ export const Lobby = ({ history }) => {
                       if (called && data) {
                         const gameId = game.id
 
-                        history.push(`/game/${gameId}`)
+                        setTimeout(() => {
+                          history.push(`/game/${gameId}`)
+                        }, 1000)
                       }
 
                       return <button
@@ -142,8 +145,10 @@ export const Lobby = ({ history }) => {
                     <em className='mx-1'>Players:</em>
                     {game.players.map(p => <strong className='mx-1' key={p.id}>{p.name}</strong>)}
                   </span>
-                  <Link className='mr-2 p-2 bg-green-500 text-white rounded' to={`/game/${game.id}`}>Play</Link>
-                  <Mutation mutation={LEAVE_GAME}>
+                  <Link className='mr-2 p-2 bg-green-500 text-white rounded' to={`/game/${game.id}`}>
+                    {game.finished ? 'View' : 'Play'}
+                  </Link>
+                  {!game.finished && <Mutation mutation={LEAVE_GAME}>
                     {(leaveGame, { loading }) => {
                       const isOwned = game.owner_id === user.sub
 
@@ -160,7 +165,7 @@ export const Lobby = ({ history }) => {
                         {isOwned ? 'Delete' : 'Leave'}
                       </button>
                     }}
-                  </Mutation>
+                  </Mutation>}
                 </li>)}
             </>)
           }}
