@@ -55,7 +55,7 @@ export const PlayedCards = ({ cards = [], game }) => {
 
       return <Card
         key={card.value}
-        value={card.value}
+        value={game.round.is_blind && !game.transitioning_round ? null : card.value}
         classes={`absolute medium-card ${animationName} center-player-card ${card.reconciled ? ' border-red-500' : ci + gi === 0 ? 'border-blue-400' : ''}`}
         styles={{
           zIndex: 50 - ((gi * groupSize) + ci),

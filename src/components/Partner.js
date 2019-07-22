@@ -8,7 +8,12 @@ export const Partner = ({ partner, roundId }) => {
   const revealedMeasurementLength = Math.floor(revealedCardsLength / 2)
 
   return <li className='relative h-24'>
-    <p>{partner.name}</p>
+    <p>
+      {partner.name}
+      &nbsp;
+      <span className={`state-bubble-small inline-block ${partner.ready ? 'bg-green-400' : 'bg-red-400'}`} />
+      {partner.suggesting_star ? <span className='star-throbber'>&nbsp;&#x272F;</span> : null}
+    </p>
     {partner.cards.map((card, i) => {
       const offset = partnerMeasurementLength - i
       const multiplier = (offset && offset / partnerCardsLength)

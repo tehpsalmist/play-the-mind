@@ -10,7 +10,12 @@ export const CardNumber = ({ number }) => {
 }
 
 export const Card = ({ isSelected, value, onClick = e => {}, styles = {}, classes }) => {
-  if (!value) return null
+  if (!value) {
+    return <div
+      className={`card-grid card-base ${classes}`}
+      style={styles}
+    />
+  }
 
   return <div
     className={`card-grid card-base ${classes}`}

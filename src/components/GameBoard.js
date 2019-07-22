@@ -6,6 +6,12 @@ import { useMedia, useStore } from '../hooks'
 export const GameBoard = ({ game, isOwner }) => {
   // console.log(game)
   const { user } = useAuth0()
+  const reward = game.round.reward
+    ? game.round.reward === 'life'
+      ? <span>(&#128007;)</span>
+      : <span>(&#x272F;)</span>
+    : ''
+
   const [player, ...partners] = game.players.sort((a, b) => a.user_id === user.sub ? -1 : b.user_id === user.sub ? 1 : 0)
   useStore('partners', partners.reduce((map, partner, i) => ({
     ...map,
@@ -24,14 +30,14 @@ export const GameBoard = ({ game, isOwner }) => {
     <section className='h-1/2 playing-area-grid'>
       <div style={{ gridArea: 'top-bar' }} className='flex items-center justify-between text-base md:text-3xl md:p-2'>
         <h1 className='max-w-2/5 truncate'>{game.name}</h1>
-        <h2 className='truncate'>{game.round.name}</h2>
+        <h2 className='truncate'>{game.round.name}&nbsp;{reward}</h2>
         <ul className='flex'>
           {Array(game.stars).fill(1).map((x, i) => <li key={i}>&#x272F;</li>)}
         </ul>
         <ul className='flex'>
           {Array(game.lives).fill(1).map((x, i) => <li key={i}>&#128007;</li>)}
         </ul>
-        <div className={`state-bubble ${game.in_conflict ? 'bg-red-500' : game.ready ? 'bg-green-400' : 'bg-yellow-500'}`} />
+        <div className={`state-bubble ${game.in_conflict ? 'bg-red-400' : game.ready ? 'bg-green-400' : 'bg-yellow-400'}`} />
       </div>
       <ul style={{ gridArea: 'partners' }} className='flex flex-1 flex-col justify-around'>
         {partners.map(partner => <Partner key={partner.id} partner={partner} roundId={game.round.id} />)}

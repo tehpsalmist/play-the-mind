@@ -70,6 +70,15 @@ main {
   @apply h-4 w-4 rounded-full shadow-md;
 }
 
+.state-bubble-small {
+  @apply h-3 w-3 rounded-full shadow-md;
+}
+
+.star-throbber {
+  display: inline-block;
+  animation: throb 1s linear infinite;
+}
+
 .partner-animation-1-1 {
   animation: partner-card-middle .5s ease-out;
 }
@@ -177,5 +186,23 @@ main {
 
   100% {
     transform: translate(0, 0) scale(1) rotate(0);
+  }
+}
+
+@keyframes throb {
+  40% {
+    transform: scale(1);
+  }
+  55% {
+    transform: scale(2);
+  }
+  70% {
+    transform: scale(1);
+  }
+  85% {
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
   }
 }

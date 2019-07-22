@@ -32,7 +32,7 @@ export const PlayableCard = ({ value, game, player, styles, classes, rotation, s
       return (!called)
         ? <Card
           styles={{ ...styles, transform: `rotate(${rotation}deg) translateX(${shiftX}px) translateY(${shiftY}px)` }}
-          classes={classes}
+          classes={`border-green-400 ${classes}`}
           value={value}
           onClick={e => !loading && game.ready && !game.in_conflict && playCard()}
         />
