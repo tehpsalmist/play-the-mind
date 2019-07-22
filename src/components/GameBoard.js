@@ -1,112 +1,82 @@
 import React from 'react'
 import { useAuth0 } from '../auth/Auth'
-import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
-
-const READY = gql`
-  mutation toggle_player_ready_state($playerId: Int, $ready: Boolean) {
-    update_players(where: {id: {_eq: $playerId}}, _set: {ready: $ready}) {
-      affected_rows
-    }
-  }
-`
-
-const SUGGESTING_STAR = gql`
-  mutation toggle_player_suggesting_star_state($playerId: Int, $suggestingStar: Boolean) {
-    update_players(where: {id: {_eq: $playerId}}, _set: {suggesting_star: $suggestingStar}) {
-      affected_rows
-    }
-  }
-`
-
-const PLAY_CARD = gql`
-  mutation play_card($cards: _int2, $card: Int, $playerId: Int, $gameId: Int, $roundId: Int) {
-    update_players(where: {id: {_eq: $playerId}}, _set: {cards: $cards, selected: null}) {
-      affected_rows
-    }
-    insert_plays(objects: {player_id: $playerId, game_id: $gameId, round_id: $roundId, value: $card}) {
-      affected_rows
-    }
-  }
-`
+import { Card, PlayableCard, ReadyButton, StarButton, Partner, PlayedCards } from '.'
+import { useMedia, useStore } from '../hooks'
 
 export const GameBoard = ({ game, isOwner }) => {
-  console.log(game)
+  // console.log(game)
   const { user } = useAuth0()
   const [player, ...partners] = game.players.sort((a, b) => a.user_id === user.sub ? -1 : b.user_id === user.sub ? 1 : 0)
-  const [lastCard, ...cards] = game.plays.filter(play => play.round_id === game.round.id).map(({ value }) => value)
+  useStore('partners', partners.reduce((map, partner, i) => ({
+    ...map,
+    [partner.id]: `partner-animation-${i + 1}-${partners.length}`
+  }), {}))
+  const playedCards = game.plays
+    .filter(play => play.round_id === game.round.id)
+    .sort((a, b) => b.value - a.value)
+
+  const [xOffset, yOffset] = useMedia(['(min-width: 768px)'], [[25, 2]], [15, 1])
+
+  const cardsLength = player.cards.length
+  const measurementLength = Math.floor(cardsLength / 2)
 
   return <main>
-    <section style={{
-      display: 'grid',
-      height: '50%',
-      gridTemplate: `1fr / repeat(${game.player_count}, 1fr)`
-    }}>
-      {
-        game.players.map(p => <div key={p.id} className='flex items-center flex-col'>
-          <p>{p.name}</p>
-          {
-            p.cards.map((card, i) => i === 0 && p.id === player.id
-              ? <Mutation key={card} mutation={PLAY_CARD} variables={{
-                gameId: game.id,
-                playerId: player.id,
-                roundId: game.round.id,
-                card,
-                cards: `{${p.cards.filter(c => c !== card).join(',')}}`
-              }}>
-                {(playCard, { error, loading, called }) => {
-                  if (error) console.error(error)
-
-                  return (!called || error) ? <button
-                    className={`border-4 border-black p-3 rounded`}
-                    onClick={() => !loading && game.ready && !game.in_conflict && playCard()}
-                  >
-                    {card}
-                  </button> : null
-                }}
-              </Mutation>
-              : <p key={card}>{card}</p>)
-          }
-          {p.id === player.id && <Mutation mutation={READY} variables={{
-            ready: !player.ready,
-            playerId: player.id
-          }}>
-            {(toggleReadyState, { error }) => {
-              if (error) console.error(error)
-
-              return <button
-                className={`mt-auto p-3 ${player.ready ? 'bg-red-500' : 'bg-green-500'} rounded text-white`}
-                onClick={() => toggleReadyState()}
-              >
-                {player.ready ? 'Declare Concentration' : 'Ready'}
-              </button>
-            }}
-          </Mutation>}
-          {p.id === player.id && <Mutation mutation={SUGGESTING_STAR} variables={{
-            suggestingStar: !player.suggesting_star,
-            playerId: player.id
-          }}>
-            {(toggleSuggestingStar, { error }) => {
-              if (error) console.error(error)
-
-              return <button
-                className={`mt-2 p-3 ${player.suggesting_star ? 'bg-purple-500' : 'bg-blue-500'} rounded text-white`}
-                onClick={() => !game.in_conflict && toggleSuggestingStar()}
-              >
-                {player.suggesting_star ? 'Withdraw Star Suggestion' : 'Let\'s throw a star!'}
-              </button>
-            }}
-          </Mutation>}
-        </div>)
-      }
-    </section>
-    <section className='flex-center flex-col h-1/2'>
-      <p className={`mb-10 ${game.ready ? 'text-green-500' : 'text-yellow-600'}`}>{game.ready ? 'Ready' : 'Paused'}</p>
-      {game.in_conflict && <p className='text-red-600'>CONFLICT</p>}
-      <h2 className='text-5xl'>{lastCard}</h2>
-      <ul className='flex justify-center'>
-        {cards.map(card => <li key={card} className='p-3 text-2xl'>{card}</li>)}
+    <section className='h-1/2 playing-area-grid'>
+      <div style={{ gridArea: 'top-bar' }} className='flex items-center justify-between text-base md:text-3xl md:p-2'>
+        <h1 className='max-w-2/5 truncate'>{game.name}</h1>
+        <h2 className='truncate'>{game.round.name}</h2>
+        <ul className='flex'>
+          {Array(game.stars).fill(1).map((x, i) => <li key={i}>&#x272F;</li>)}
+        </ul>
+        <ul className='flex'>
+          {Array(game.lives).fill(1).map((x, i) => <li key={i}>&#128007;</li>)}
+        </ul>
+        <div className={`state-bubble ${game.in_conflict ? 'bg-red-500' : game.ready ? 'bg-green-400' : 'bg-yellow-500'}`} />
+      </div>
+      <ul style={{ gridArea: 'partners' }} className='flex flex-1 flex-col justify-around'>
+        {partners.map(partner => <Partner key={partner.id} partner={partner} roundId={game.round.id} />)}
       </ul>
+      <div id='played-cards' style={{ gridArea: 'played-cards' }} className='relative'>
+        <PlayedCards cards={playedCards} game={game} />
+      </div>
+    </section>
+    <section className='flex flex-col-reverse text-center h-1/2'>
+      <p className='mb-2'>{player.name}</p>
+      <div className='w-full h-full relative'>
+        {
+          player.cards.map((card, i, allCards) => {
+            const offset = measurementLength - i
+            const multiplier = (offset && offset / cardsLength)
+            const rotation = cardsLength * 5 * multiplier
+            const shiftX = cardsLength * xOffset * multiplier
+            const shiftY = Math.abs(cardsLength * yOffset * multiplier)
+
+            return i === 0
+              ? <PlayableCard
+                key={card}
+                value={card}
+                game={game}
+                player={player}
+                rotation={rotation}
+                shiftX={shiftX}
+                shiftY={shiftY}
+                styles={{ zIndex: 40 - i }}
+                classes='center-player-card big-card cursor-pointer'
+              />
+              : <Card
+                key={card}
+                value={card}
+                styles={{
+                  zIndex: 40 - i,
+                  transform: `rotate(${rotation}deg) translateX(${shiftX}px) translateY(${shiftY}px)`
+                }}
+                classes='center-player-card big-card'
+              />
+          })
+        }
+        {game.stars ? <StarButton player={player} game={game} /> : null}
+        <ReadyButton player={player} />
+      </div>
     </section>
   </main>
 }

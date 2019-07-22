@@ -13,10 +13,169 @@ main {
   @apply justify-center content-center items-center text-center rounded border mb-1 p-1;
 }
 
+.card-grid {
+  display: grid;
+  grid-template: 20% 1fr 20% / 20% 1fr 20%;
+  grid-template-areas:
+    "top-left . ."
+    "center center center"
+    ". . bottom-right";
+  @apply justify-center items-stretch content-center;
+}
+
+.playing-area-grid {
+  display: grid;
+  grid-template: 24px 1fr / 50% 1fr;
+  grid-template-areas:
+    "top-bar top-bar"
+    "partners played-cards";
+  grid-row-gap: .5rem;
+}
+
+.card-base {
+  @apply shadow-lg rounded text-5xl border border-black bg-gray-100;
+}
+
+.big-card {
+  @apply w-20 h-30 border-2 rounded-lg;
+}
+
+.medium-card {
+  @apply w-16 h-24 border-2 rounded-lg;
+}
+
+.center-player-card {
+  top: 50px;
+  left: calc(50% - 2.5rem);
+  @apply absolute;
+}
+
+.center-partner-card {
+  top: 25px;
+  left: 40px;
+  @apply absolute;
+}
+
+.center-partner-revealed-card {
+  top: 25px;
+  left: 120px;
+  @apply absolute;
+}
+
+.center-partner-revealed-card > span {
+  @apply p-0;
+}
+
+.state-bubble {
+  @apply h-4 w-4 rounded-full shadow-md;
+}
+
+.partner-animation-1-1 {
+  animation: partner-card-middle .5s ease-out;
+}
+
+.partner-animation-1-2 {
+  animation: partner-card-middle-upper .5s ease-out;
+}
+
+.partner-animation-2-2 {
+  animation: partner-card-middle-lower .5s ease-out;
+}
+
+.partner-animation-1-3 {
+  animation: partner-card-upper .5s ease-out;
+}
+
+.partner-animation-2-3 {
+  animation: partner-card-middle .5s ease-out;
+}
+
+.partner-animation-3-3 {
+  animation: partner-card-lower .5s ease-out;
+}
+
+@screen md {
+  .center-player-card {
+    top: 80px;
+    left: calc(50% - 5rem);
+  }
+
+  .big-card {
+    @apply w-40 h-60 border-4;
+  }
+
+  .medium-card {
+    @apply w-32 h-48 border-4;
+  }
+
+  .center-partner-revealed-card {
+    left: 150px;
+  }
+
+  .playing-area-grid {
+    grid-template: 40px 1fr / 400px 1fr;
+    grid-row-gap: 1rem;
+  }
+
+  .state-bubble {
+    @apply h-8 w-8;
+  }
+}
+
 @tailwind utilities;
 
 @responsive {
   .flex-center {
     @apply flex justify-center items-center;
+  }
+}
+
+@keyframes partner-card-middle {
+  0% {
+    transform: translate(-60vw, 0) scale(.1) rotate(-360deg);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0);
+  }
+}
+
+@keyframes partner-card-middle-upper {
+  0% {
+    transform: translate(-60vw, 3rem) scale(.1) rotate(-360deg);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0);
+  }
+}
+
+@keyframes partner-card-upper {
+  0% {
+    transform: translate(-60vw, 6rem) scale(.1) rotate(-360deg);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0);
+  }
+}
+
+@keyframes partner-card-middle-lower {
+  0% {
+    transform: translate(-60vw, 5rem) scale(.1) rotate(-360deg);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0);
+  }
+}
+
+@keyframes partner-card-lower {
+  0% {
+    transform: translate(-60vw, 10rem) scale(.1) rotate(-360deg);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0);
   }
 }

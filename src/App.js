@@ -10,14 +10,14 @@ export default props => {
 
   return <ApolloProvider client={apolloClient}>
     <Router>
-      <nav className='flex bg-gray-800 text-gray-500 items-center'>
-        <NavLink activeClassName='text-white' className='p-4 hover:bg-gray-700' exact to='/'>Home</NavLink>
+      <nav className='bg-gray-800 shadow-lg text-gray-500 overflow-x-auto whitespace-no-wrap'>
+        <NavLink activeClassName='text-white' className='py-2 px-4 sm:p-4 hover:bg-gray-700' exact to='/'>Home</NavLink>
         {isAuthenticated && <>
-          <NavLink activeClassName='text-white' className='p-4 hover:bg-gray-700' to='/new-game'>New Game</NavLink>
-          <NavLink activeClassName='text-white' className='p-4 hover:bg-gray-700' to='/profile'>Profile</NavLink>
-          <button className='p-4 hover:bg-gray-700' onClick={() => logout()}>Logout</button>
+          <NavLink activeClassName='text-white' className='py-2 px-4 sm:p-4 hover:bg-gray-700' to='/new-game'>New Game</NavLink>
+          <NavLink activeClassName='text-white' className='py-2 px-4 sm:p-4 hover:bg-gray-700' to='/profile'>Profile</NavLink>
+          <button className='py-2 px-4 sm:p-4 hover:bg-gray-700' onClick={() => logout()}>Logout</button>
         </>}
-        {!isAuthenticated && <button className='p-4 hover:bg-gray-700' onClick={() => loginWithPopup({})}>Login</button>}
+        {!isAuthenticated && <button className='py-2 px-4 sm:p-4 hover:bg-gray-700' onClick={() => loginWithPopup({})}>Login</button>}
       </nav>
       <Switch>
         <PrivateRoute path='/new-game' component={withRouter(NewGame)} />

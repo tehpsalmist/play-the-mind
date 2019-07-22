@@ -23,6 +23,7 @@ const USER_GAMES = gql`
       created_at
       finished
       round {
+        id
         number_of_cards
         is_blind
       }
@@ -78,7 +79,7 @@ export const Lobby = ({ history }) => {
     {client => <>
       <p className='text-center'>Play the Mind. Become the Mind.</p>
       {!authToken ? <PleaseLogin /> : <ul className='w-full flex flex-col-reverse items-stretch'>
-        <Subscription subscription={AVAILABLE_GAMES} variables={{ userId: user && user.sub }} fetchPolicy='no-cache'>
+        <Subscription subscription={AVAILABLE_GAMES} variables={{ userId: user && user.sub }}>
           {({ loading, error, data }) => {
             if (error) {
               console.log(error)
@@ -95,7 +96,7 @@ export const Lobby = ({ history }) => {
                 >
                   <span>{game.name}</span>
                   <strong className='ml-2'>{game.players.length}/{game.player_count}</strong>
-                  <span className='mx-auto'>
+                  <span className='mx-auto hidden sm:block'>
                     <em className='mx-1'>Players:</em>
                     {game.players.map(p => <strong className='mx-1' key={p.id}>{p.name}</strong>)}
                   </span>
@@ -127,7 +128,7 @@ export const Lobby = ({ history }) => {
             </>)
           }}
         </Subscription>
-        <Subscription subscription={USER_GAMES} variables={{ userId: user && user.sub }} fetchPolicy='no-cache'>
+        <Subscription subscription={USER_GAMES} variables={{ userId: user && user.sub }}>
           {({ loading, error, data }) => {
             if (error) return `Error: ${error.message}`
             if (loading || !data) return 'Finding Games...'
@@ -141,7 +142,7 @@ export const Lobby = ({ history }) => {
                 >
                   <span>{game.name}</span>
                   <strong className='ml-2'>{game.players.length}/{game.player_count}</strong>
-                  <span className='mx-auto'>
+                  <span className='mx-auto hidden sm:flex sm:flex-wrap'>
                     <em className='mx-1'>Players:</em>
                     {game.players.map(p => <strong className='mx-1' key={p.id}>{p.name}</strong>)}
                   </span>

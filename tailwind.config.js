@@ -141,11 +141,14 @@ module.exports = {
       '16': '4rem',
       '20': '5rem',
       '24': '6rem',
+      '30': '7.5rem',
       '32': '8rem',
       '40': '10rem',
       '48': '12rem',
       '56': '14rem',
+      '60': '15rem',
       '64': '16rem',
+      '80': '20rem',
       '1/2': '50%',
       '1/3': '33.333333%',
       '2/3': '66.666667%',
@@ -335,11 +338,12 @@ module.exports = {
       ...theme('spacing'),
       ...negative(theme('spacing'))
     }),
-    maxHeight: {
+    maxHeight: theme => ({
       full: '100%',
-      screen: '100vh'
-    },
-    maxWidth: {
+      screen: '100vh',
+      ...theme('spacing')
+    }),
+    maxWidth: theme => ({
       xs: '20rem',
       sm: '24rem',
       md: '28rem',
@@ -350,8 +354,9 @@ module.exports = {
       '4xl': '56rem',
       '5xl': '64rem',
       '6xl': '72rem',
-      full: '100%'
-    },
+      full: '100%',
+      ...theme('spacing')
+    }),
     minHeight: {
       '0': '0',
       full: '100%',
