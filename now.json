@@ -23,9 +23,6 @@
       "dest": "dist/index.html"
     }
   ],
-  "alias": [
-    "play-the-mind"
-  ],
   "regions": [
     "all"
   ]
