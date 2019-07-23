@@ -4,7 +4,7 @@
   "description": "Frontend for The Mind Card Game (unofficial)",
   "main": "index.html",
   "scripts": {
-    "start": "parcel index.html",
+    "start": "rimraf dist && parcel index.html",
     "build": "parcel build index.html"
   },
   "repository": {

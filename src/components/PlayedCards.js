@@ -38,8 +38,8 @@ export const PlayedCards = ({ cards = [], game }) => {
       setCoords({ left: left + ((width - ((cardsRemainder - 1) * xShift)) / 2), top: topPadding + (baseTop - (verticalShift * 2)) })
     }
 
-    if (cards.length > 3 && Object.keys(cardMap).length !== cards.slice(3).length) {
-      setCardMap(cards.slice(3).reduce((map, card) => ({ ...map, [card.value]: true }), {}))
+    if (cards.length && Object.keys(cardMap).length !== cards.length) {
+      setCardMap(cards.reduce((map, card) => ({ ...map, [card.value]: cardMap[card.value] || Date.now() }), {}))
     }
   })
 
@@ -51,7 +51,7 @@ export const PlayedCards = ({ cards = [], game }) => {
       const offset = measurementLength - ci
       const multiplier = (offset && offset / cardsLength)
       const shiftX = cardsLength * xShift * multiplier
-      const animationName = !cardMap[card.value] ? partnerMap[card.player_id] || '' : ''
+      const animationName = cardMap[card.value] > Date.now() - 700 ? partnerMap[card.player_id] || '' : ''
 
       return <Card
         key={card.value}

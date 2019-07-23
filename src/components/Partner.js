@@ -42,7 +42,7 @@ export const Partner = ({ partner, roundId }) => {
         value={card.value}
         classes='center-partner-revealed-card h-12 w-8'
         styles={{
-          zIndex: 40 - i,
+          zIndex: 50 - i,
           transform: `rotate(${rotation}deg) translateX(${shiftX}px) translateY(${shiftY}px)`
         }}
       />

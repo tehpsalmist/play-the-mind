@@ -58,11 +58,17 @@ main {
 
 .center-partner-revealed-card {
   top: 25px;
-  left: 120px;
+  left: 100px;
   @apply absolute;
 }
 
-.center-partner-revealed-card > span {
+.center-player-revealed-card {
+  top: 30px;
+  left: 20px;
+  @apply absolute;
+}
+
+.center-partner-revealed-card > span, .center-player-revealed-card > span {
   @apply p-0;
 }
 
@@ -119,6 +125,11 @@ main {
 
   .center-partner-revealed-card {
     left: 150px;
+  }
+
+  .center-player-revealed-card {
+    top: 60px;
+    left: 50px;
   }
 
   .playing-area-grid {

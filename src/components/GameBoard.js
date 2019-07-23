@@ -80,6 +80,26 @@ export const GameBoard = ({ game, isOwner }) => {
               />
           })
         }
+        {
+          player.revealed_cards.filter(card => card.round_id === game.round.id).map((card, i) => {
+            const revealedCardsLength = player.revealed_cards.length
+            const offset = Math.floor(revealedCardsLength / 2) - i
+            const multiplier = (offset && offset / revealedCardsLength)
+            const rotation = revealedCardsLength * 5 * multiplier
+            const shiftX = revealedCardsLength * 10 * multiplier
+            const shiftY = Math.abs(revealedCardsLength * 0 * multiplier)
+
+            return <Card
+              key={card.value}
+              value={card.value}
+              classes='center-player-revealed-card h-12 w-8'
+              styles={{
+                zIndex: 40 - i,
+                transform: `rotate(${rotation}deg) translateX(${shiftX}px) translateY(${shiftY}px)`
+              }}
+            />
+          })
+        }
         {game.stars ? <StarButton player={player} game={game} /> : null}
         <ReadyButton player={player} />
       </div>
