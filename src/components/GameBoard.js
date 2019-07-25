@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuth0 } from '../auth/Auth'
-import { Card, PlayableCard, ReadyButton, StarButton, Partner, PlayedCards } from '.'
+import { Card, PlayableCard, ReadyButton, StarButton, Partner, PlayedCards, Chat } from '.'
 import { useMedia, useStore } from '../hooks'
 
 export const GameBoard = ({ game, isOwner }) => {
@@ -47,7 +47,6 @@ export const GameBoard = ({ game, isOwner }) => {
       </div>
     </section>
     <section className='flex flex-col-reverse text-center h-1/2'>
-      <p className='mb-2'>{player.name}</p>
       <div className='w-full h-full relative'>
         {
           player.cards.map((card, i, allCards) => {
@@ -104,5 +103,6 @@ export const GameBoard = ({ game, isOwner }) => {
         <ReadyButton player={player} />
       </div>
     </section>
+    <Chat game={game} />
   </main>
 }

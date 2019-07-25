@@ -8,6 +8,8 @@ import { StarButton } from './StarButton'
 import { PlayableCard } from './PlayableCard'
 import { Partner } from './Partner'
 import { PlayedCards } from './PlayedCards'
+import { UpdateUserInfo } from './UpdateUserInfo'
+import { Chat } from './Chat'
 
 export {
   GamePrepGuest,
@@ -19,5 +21,7 @@ export {
   StarButton,
   PlayableCard,
   Partner,
-  PlayedCards
+  PlayedCards,
+  Chat,
+  UpdateUserInfo
 }

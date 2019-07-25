@@ -1,6 +1,7 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import { Chat } from '.';
 
 const START_GAME = gql`
   mutation start_game($gameId: Int) {
@@ -45,5 +46,6 @@ export const GamePrepHost = ({ game }) => {
         {player.user_id === game.owner_id && ' (Game Host)'}
       </li>)}
     </ul>
+    <Chat game={game} />
   </main>
 }

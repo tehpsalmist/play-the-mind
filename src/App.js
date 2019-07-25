@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, NavLink, withRouter } from 'react-router-dom'
 import { NewGame, Lobby, Game, Profile } from './screens'
+import { UpdateUserInfo } from './components'
 import { ApolloProvider } from 'react-apollo'
 import { useAuth0 } from './auth/Auth'
 import PrivateRoute from './auth/PrivateRoute'
@@ -8,9 +9,10 @@ import PrivateRoute from './auth/PrivateRoute'
 const linkClasses = 'py-auto px-4 sm:p-4 hover:bg-gray-700 border-none leading-none'
 
 export default props => {
-  const { isAuthenticated, loginWithPopup, logout, apolloClient } = useAuth0()
+  const { isAuthenticated, loginWithPopup, logout, apolloClient, user } = useAuth0()
 
   return <ApolloProvider client={apolloClient}>
+    <UpdateUserInfo user={user}/>
     <Router>
       <nav className='bg-gray-800 shadow-lg text-gray-500 overflow-x-auto whitespace-no-wrap'>
         <NavLink activeClassName='text-white' className={linkClasses} exact to='/'>Home</NavLink>
