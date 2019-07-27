@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Query, Mutation } from 'react-apollo'
 import { USER, UPDATE_USER } from '../queries'
 

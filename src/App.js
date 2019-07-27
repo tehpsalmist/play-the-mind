@@ -12,7 +12,7 @@ export default props => {
   const { isAuthenticated, loginWithPopup, logout, apolloClient, user } = useAuth0()
 
   return <ApolloProvider client={apolloClient}>
-    <UpdateUserInfo user={user}/>
+    <UpdateUserInfo user={user} />
     <Router>
       <nav className='bg-gray-800 shadow-lg text-gray-500 overflow-x-auto whitespace-no-wrap'>
         <NavLink activeClassName='text-white' className={linkClasses} exact to='/'>Home</NavLink>

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Chat } from '.';
+import { Chat } from '.'
 
 export const FinishedGame = ({ game }) => {
   console.log(game)

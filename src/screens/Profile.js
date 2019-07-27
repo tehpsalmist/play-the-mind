@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuth0 } from '../auth/Auth'
-import { Chat } from '../components';
+import { Chat } from '../components'
 
 export const Profile = props => {
   const { loading, user } = useAuth0()

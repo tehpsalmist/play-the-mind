@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { withApollo } from 'react-apollo'
 import { withRouter } from 'react-router-dom'
 import { useAuth0 } from '../auth/Auth'
-import { Chat } from '../components';
+import { Chat } from '../components'
 
 export const NewGame = withRouter(withApollo(({ client, history }) => {
   const [players, setPlayers] = useState(null)

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 let store = {}
-let listeners = {}
+const listeners = {}
 
 const setStateForKey = key => newState => {
   // don't do anything if there is no new state provided

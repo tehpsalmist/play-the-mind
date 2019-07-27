@@ -1,7 +1,7 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Chat } from '.';
+import { Chat } from '.'
 
 const START_GAME = gql`
   mutation start_game($gameId: Int) {

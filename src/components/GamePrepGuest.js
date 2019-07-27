@@ -2,7 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { useAuth0 } from '../auth/Auth'
-import { Chat } from '.';
+import { Chat } from '.'
 
 const LEAVE_GAME = gql`
   mutation delete_players($playerId: Int) {
