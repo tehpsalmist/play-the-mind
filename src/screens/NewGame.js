@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import { withApollo } from 'react-apollo'
 import { withRouter } from 'react-router-dom'
 import { useAuth0 } from '../auth/Auth'
+import { Chat } from '../components';
 
 export const NewGame = withRouter(withApollo(({ client, history }) => {
   const [players, setPlayers] = useState(null)
@@ -116,5 +117,6 @@ export const NewGame = withRouter(withApollo(({ client, history }) => {
       Create Game
     </button>
     {errorMessage && <p className='text-red-600 my-2'>{errorMessage}</p>}
+    <Chat />
   </main>
 }))

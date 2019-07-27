@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Chat } from '.';
 
 export const FinishedGame = ({ game }) => {
   console.log(game)
@@ -27,5 +28,6 @@ export const FinishedGame = ({ game }) => {
         </Fragment>)}
       </ul>
     </section>
+    <Chat game={game} />
   </main>
 }

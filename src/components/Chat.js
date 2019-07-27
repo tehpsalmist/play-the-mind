@@ -21,7 +21,7 @@ export const Chat = ({ game }) => {
     }
   }, [open])
 
-  return <aside className='fixed bottom-0 right-0 bg-white shadow-lg p-1 sm:mb-2 sm:mr-2 z-50 w-full sm:w-80 max-h-1/2 sm:max-h-120 flex flex-col items-stretch'>
+  return <aside className='fixed bottom-0 right-0 bg-white shadow-lg p-1 sm:mb-2 sm:mr-2 z-50 w-full sm:w-80 max-h-1/2 sm:max-h-2/5 flex flex-col items-stretch'>
     <Subscription subscription={game ? MESSAGES : GLOBAL_MESSAGES} variables={game ? { gameId: game.id } : {}} shouldResubscribe>
       {({ loading, error, data }) => {
         if (loading) return 'Loading Messages...'
@@ -49,7 +49,7 @@ export const Chat = ({ game }) => {
           </a>
       }}
     </Subscription>
-    
+
     {open
       ? <Mutation mutation={SEND_MESSAGE} variables={{
         gameId: game ? game.id : null,
