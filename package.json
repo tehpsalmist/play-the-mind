@@ -6,8 +6,8 @@
   "scripts": {
     "start": "rm -rf dist/ .cache/ && parcel index.html",
     "build": "rm -rf dist/ .cache/ && parcel build index.html",
-    "stage": "now && now rm play-the-mind -ys",
-    "publish": "now --target production && now rm play-the-mind -ys"
+    "stage": "npm run build && now && now rm play-the-mind -ys",
+    "publish": "npm run build && now --target production && now rm play-the-mind -ys"
   },
   "repository": {
     "type": "git",
