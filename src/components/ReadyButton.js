@@ -21,10 +21,10 @@ export const ReadyButton = ({ player }) => {
       const bg = player.ready ? 'bg-red-500' : 'bg-green-500'
 
       return <button
-        className={`absolute top-0 right-0 px-1 shadow-lg sm:p-3 ${bg} rounded text-white`}
+        className={`w-auto px-1 shadow-md sm:p-3 ${bg} rounded text-white`}
         onClick={() => toggleReadyState()}
       >
-        {player.ready ? 'Concentration!' : 'I\'m Ready!'}
+        {player.ready ? 'Let\'s Concentrate' : 'Ok, I\'m Ready!'}
       </button>
     }}
   </Mutation>

@@ -18,13 +18,15 @@ export const StarButton = ({ player, game }) => {
     {(toggleSuggestingStar, { error, called }) => {
       if (error) console.error(error)
 
-      const bg = player.suggesting_star ? 'bg-purple-500' : 'bg-blue-500'
+      const bg = player.suggesting_star ? 'bg-red-500' : 'bg-blue-500'
 
       return <button
-        className={`absolute top-0 left-0 px-1 shadow-lg sm:p-3 ${bg} rounded text-white`}
+        className={`w-auto px-1 shadow-md sm:p-3 ${bg} rounded text-white`}
         onClick={() => !game.in_conflict && game.stars && toggleSuggestingStar()}
       >
-        {player.suggesting_star ? 'Withdraw Star Suggestion' : 'Let\'s throw a star!'}
+        {player.suggesting_star
+          ? <span>Cancel Star<span className='star-throbber'>&nbsp;&#x272F;</span></span>
+          : 'Let\'s throw a star!'}
       </button>
     }}
   </Mutation>

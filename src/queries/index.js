@@ -14,7 +14,7 @@ export const GAME = gql`
       transitioning_round
       finished
       player_count
-      players {
+      players(order_by: {joined_at: asc}) {
         id
         name
         user_id

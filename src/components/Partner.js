@@ -7,11 +7,13 @@ export const Partner = ({ partner, roundId }) => {
   const revealedCardsLength = partner.revealed_cards.length
   const revealedMeasurementLength = Math.floor(revealedCardsLength / 2)
 
-  return <li className='relative h-24'>
-    <p>
-      {partner.name}
+  return <li className='relative h-18'>
+    <p className='flex'>
+      <span className='max-w-3/4 truncate'>{partner.name}</span>
       &nbsp;
-      <span className={`state-bubble-small inline-block ${partner.ready ? 'bg-green-400' : 'bg-red-400'}`} />
+      <span className={`state-bubble-small ${partner.ready ? 'bg-green-400' : 'bg-red-400'}`}>
+        <span style={{ transform: 'translateX(13%)' }}>{partner.ready ? '👍' : '✋'}</span>
+      </span>
       {partner.suggesting_star ? <span className='star-throbber'>&nbsp;&#x272F;</span> : null}
     </p>
     {partner.cards.map((card, i) => {

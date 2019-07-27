@@ -28,7 +28,7 @@ export const GameBoard = ({ game, isOwner }) => {
 
   return <main>
     <section className='h-1/2 playing-area-grid'>
-      <div style={{ gridArea: 'top-bar' }} className='flex items-center justify-between text-base md:text-3xl md:p-2'>
+      <div style={{ gridArea: 'top-bar' }} className='flex items-center justify-between md:justify-around text-base md:text-3xl md:p-2'>
         <h1 className='max-w-2/5 truncate'>{game.name}</h1>
         <h2 className='truncate'>{game.round.name}&nbsp;{reward}</h2>
         <ul className='flex'>
@@ -37,9 +37,8 @@ export const GameBoard = ({ game, isOwner }) => {
         <ul className='flex'>
           {Array(game.lives).fill(1).map((x, i) => <li key={i}>&#128007;</li>)}
         </ul>
-        <div className={`state-bubble ${game.in_conflict ? 'bg-red-400' : game.ready ? 'bg-green-400' : 'bg-yellow-400'}`} />
       </div>
-      <ul style={{ gridArea: 'partners' }} className='flex flex-1 flex-col justify-around'>
+      <ul style={{ gridArea: 'partners' }} className='flex flex-1 flex-col justify-center md:justify-around'>
         {partners.map(partner => <Partner key={partner.id} partner={partner} roundId={game.round.id} />)}
       </ul>
       <div id='played-cards' style={{ gridArea: 'played-cards' }} className='relative'>
@@ -47,7 +46,12 @@ export const GameBoard = ({ game, isOwner }) => {
       </div>
     </section>
     <section className='flex flex-col-reverse text-center h-1/2'>
-      <div className='w-full h-full relative'>
+      <div className='w-full h-full relative flex justify-between md:justify-around items-start'>
+        {game.stars ? <StarButton player={player} game={game} /> : null}
+        <span className={`${player.ready ? 'bg-green-400' : 'bg-red-500'} state-bubble`}>
+          <span style={{ transform: 'translateX(12%)' }}>{player.ready ? '👍' : '✋'}</span>
+        </span>
+        <ReadyButton player={player} />
         {
           player.cards.map((card, i, allCards) => {
             const offset = measurementLength - i
@@ -99,8 +103,6 @@ export const GameBoard = ({ game, isOwner }) => {
             />
           })
         }
-        {game.stars ? <StarButton player={player} game={game} /> : null}
-        <ReadyButton player={player} />
       </div>
     </section>
     <Chat game={game} />
