@@ -27,7 +27,7 @@ export const Chat = ({ game }) => {
         if (loading) return 'Loading Messages...'
         if (error) return `Error Loading Messages: ${error.message}`
         if (!data || !data.messages || !data.messages.length) {
-          return <a onClick={e => setOpen(!open)} className='text-gray-400 cursor-pointer'>Send a message...</a>
+          return <a onClick={e => setOpen(!open)} className='text-gray-700 cursor-pointer'>Send a message...</a>
         }
 
         return open
@@ -42,7 +42,7 @@ export const Chat = ({ game }) => {
               {data.messages.map(message => <li key={message.id}><strong>{message.user.name}:</strong>{' '}{message.text}</li>)}
             </ul>
           </>
-          : <a onClick={e => setOpen(true)} className='text-gray-400 cursor-pointer truncate'>
+          : <a onClick={e => setOpen(true)} className='text-gray-700 cursor-pointer truncate'>
             {data.messages[0]
               ? <><strong>{data.messages[0].user.name}:</strong>{' '}{data.messages[0].text}</>
               : 'Send a message...'}
