@@ -1,9 +1,28 @@
 import React from 'react'
 import { useAuth0 } from '../auth/Auth'
 import { Card, PlayableCard, ReadyButton, StarButton, Partner, PlayedCards, Chat } from '.'
-import { useMedia, useStore } from '../hooks'
+import { useMedia, useStore, useWhatChanged } from '../hooks'
 
 export const GameBoard = ({ game, isOwner }) => {
+  useWhatChanged(game, changes => {
+    console.log(changes)
+
+    if (changes.ready) {
+      if (changes.ready.from === true && changes.ready.to === false) {
+        console.log('Paused!')
+      }
+
+      if (changes.ready.from === false && changes.ready.to === true) {
+        console.log('Play!')
+      }
+    }
+
+    if (changes.in_conflict) {
+      if (changes.in_conflict.from === false && changes.in_conflict.to === true) {
+        console.log('Oh No!')
+      }
+    }
+  })
   // console.log(game)
   const { user } = useAuth0()
   const reward = game.round.reward
