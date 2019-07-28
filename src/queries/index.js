@@ -57,7 +57,7 @@ export const GAME = gql`
 `
 
 export const GLOBAL_MESSAGES = gql`
-  subscription {
+  subscription messages {
     messages(where: {game_id: {_is_null: true}}, order_by: {created_at: desc}) {
       text
       user {
