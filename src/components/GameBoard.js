@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuth0 } from '../auth/Auth'
 import { Card, PlayableCard, ReadyButton, StarButton, Partner, PlayedCards, Chat } from '.'
 import { useMedia, useStore, useWhatChanged } from '../hooks'
-import { changeHappened } from '../functions';
+import { changeHappened } from '../functions'
 
 export const GameBoard = ({ game, isOwner }) => {
   useWhatChanged(game, changes => {

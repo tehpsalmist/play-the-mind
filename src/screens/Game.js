@@ -1,9 +1,8 @@
 import React from 'react'
 import { ApolloConsumer, Subscription } from 'react-apollo'
-import { GamePrepGuest, GamePrepHost, GameBoard, FinishedGame } from '../components'
+import { GamePrepGuest, GamePrepHost, GameBoard, FinishedGame, EventMessage } from '../components'
 import { useAuth0 } from '../auth/Auth'
 import { GAME } from '../queries'
-import { EventMessage } from '../components';
 
 export const Game = ({ match }) => {
   const { user } = useAuth0()
