@@ -79,7 +79,7 @@ export const Lobby = ({ history }) => {
 
   return <ApolloConsumer>
     {client => <>
-      <p className='text-center'>Play the Mind. Become the Mind.</p>
+      <p className='text-center'><em>Play the Mind. Become the Mind.</em></p>
       {!authToken ? <PleaseLogin /> : <>
         <ul className='w-full flex flex-col items-stretch'>
           <li className='p-2 text-green-500'>Your Games:</li>
