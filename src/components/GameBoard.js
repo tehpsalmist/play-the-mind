@@ -6,7 +6,6 @@ import { changeHappened } from '../functions'
 
 export const GameBoard = ({ game, isOwner, viewSummary }) => {
   useWhatChanged(game, changes => {
-    // console.log(changes)
     let conflict = false
     let newRound = false
 
@@ -18,10 +17,10 @@ export const GameBoard = ({ game, isOwner, viewSummary }) => {
     }
 
     if (changeHappened(changes, 'transitioning_round', false, true)) {
-      newRound = true
       dispatchEvent(new CustomEvent('pause', {
-        detail: <p>{game.round.name}<br />Complete!</p>
+        detail: <p className='text-center'>{game.round.name}<br />Complete!</p>
       }))
+      newRound = true
     }
 
     if (!conflict && !newRound && changeHappened(changes, 'ready', true, false)) {
@@ -35,8 +34,20 @@ export const GameBoard = ({ game, isOwner, viewSummary }) => {
         detail: 'Play!'
       }))
     }
+
+    if (changeHappened(changes, 'lives', game.lives - 1, game.lives)) {
+      dispatchEvent(new CustomEvent('play', {
+        detail: '+1 Life!'
+      }))
+    }
+
+    if (changeHappened(changes, 'stars', game.stars - 1, game.stars)) {
+      dispatchEvent(new CustomEvent('play', {
+        detail: '+1 Star!'
+      }))
+    }
   })
-  // console.log(game)
+
   const { user } = useAuth0()
   const reward = game.round.reward
     ? game.round.reward === 'life'
