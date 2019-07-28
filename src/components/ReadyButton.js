@@ -18,7 +18,7 @@ export const ReadyButton = ({ player }) => {
     {(toggleReadyState, { error, called }) => {
       if (error) console.error(error)
 
-      const bg = player.ready ? 'bg-red-500' : 'bg-green-500'
+      const bg = player.ready ? 'bg-purple-500' : 'bg-purple-500'
 
       return <button
         className={`w-auto px-1 shadow-md sm:p-3 ${bg} rounded text-white`}

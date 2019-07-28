@@ -18,7 +18,7 @@ export const StarButton = ({ player, game }) => {
     {(toggleSuggestingStar, { error, called }) => {
       if (error) console.error(error)
 
-      const bg = player.suggesting_star ? 'bg-red-500' : 'bg-blue-500'
+      const bg = player.suggesting_star ? 'bg-blue-500' : 'bg-blue-500'
 
       return <button
         className={`w-auto px-1 shadow-md sm:p-3 ${bg} rounded text-white`}
