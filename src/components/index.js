@@ -10,6 +10,7 @@ import { Partner } from './Partner'
 import { PlayedCards } from './PlayedCards'
 import { UpdateUserInfo } from './UpdateUserInfo'
 import { Chat } from './Chat'
+import { EventMessage } from './EventMessage'
 
 export {
   GamePrepGuest,
@@ -23,5 +24,6 @@ export {
   Partner,
   PlayedCards,
   Chat,
-  UpdateUserInfo
+  UpdateUserInfo,
+  EventMessage
 }

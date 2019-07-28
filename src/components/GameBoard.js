@@ -2,28 +2,41 @@ import React from 'react'
 import { useAuth0 } from '../auth/Auth'
 import { Card, PlayableCard, ReadyButton, StarButton, Partner, PlayedCards, Chat } from '.'
 import { useMedia, useStore, useWhatChanged } from '../hooks'
+import { changeHappened } from '../functions';
 
 export const GameBoard = ({ game, isOwner }) => {
   useWhatChanged(game, changes => {
     console.log(changes)
+    let conflict = false
+    let newRound = false
 
-    if (changes.ready) {
-      if (changes.ready.from === true && changes.ready.to === false) {
-        console.log('Paused!')
-      }
-
-      if (changes.ready.from === false && changes.ready.to === true) {
-        console.log('Play!')
-      }
+    if (changeHappened(changes, 'in_conflict', false, true)) {
+      dispatchEvent(new CustomEvent('conflict', {
+        detail: 'Oh No!'
+      }))
+      conflict = true
     }
 
-    if (changes.in_conflict) {
-      if (changes.in_conflict.from === false && changes.in_conflict.to === true) {
-        console.log('Oh No!')
-      }
+    if (changeHappened(changes, 'transitioning_round', false, true)) {
+      newRound = true
+      dispatchEvent(new CustomEvent('pause', {
+        detail: <p>{game.round.name}<br />Complete!</p>
+      }))
+    }
+
+    if (!conflict && !newRound && changeHappened(changes, 'ready', true, false)) {
+      dispatchEvent(new CustomEvent('pause', {
+        detail: 'Game Paused'
+      }))
+    }
+
+    if (changeHappened(changes, 'ready', false, true)) {
+      dispatchEvent(new CustomEvent('play', {
+        detail: 'Play!'
+      }))
     }
   })
-  // console.log(game)
+  console.log(game)
   const { user } = useAuth0()
   const reward = game.round.reward
     ? game.round.reward === 'life'

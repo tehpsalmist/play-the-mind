@@ -9,3 +9,13 @@ export const getOffset = element => {
     width: elemRect.width
   }
 }
+
+export const changeHappened = (changes, key, from, to) => {
+  if (changes[key]) {
+    if (changes[key].from === from && changes[key].to === to) {
+      return true
+    }
+  }
+
+  return false
+}
