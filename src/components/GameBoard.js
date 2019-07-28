@@ -4,9 +4,9 @@ import { Card, PlayableCard, ReadyButton, StarButton, Partner, PlayedCards, Chat
 import { useMedia, useStore, useWhatChanged } from '../hooks'
 import { changeHappened } from '../functions'
 
-export const GameBoard = ({ game, isOwner }) => {
+export const GameBoard = ({ game, isOwner, viewSummary }) => {
   useWhatChanged(game, changes => {
-    console.log(changes)
+    // console.log(changes)
     let conflict = false
     let newRound = false
 
@@ -36,7 +36,7 @@ export const GameBoard = ({ game, isOwner }) => {
       }))
     }
   })
-  console.log(game)
+  // console.log(game)
   const { user } = useAuth0()
   const reward = game.round.reward
     ? game.round.reward === 'life'
@@ -68,6 +68,7 @@ export const GameBoard = ({ game, isOwner }) => {
         </ul>
         <ul className='flex'>
           {Array(game.lives).fill(1).map((x, i) => <li key={i}>&#128007;</li>)}
+          {game.finished && <button className='bg-purple-500 rounded text-white px-1 md:p-2 md:text-xl' onClick={viewSummary}>Game Summary</button>}
         </ul>
       </div>
       <ul style={{ gridArea: 'partners' }} className='flex flex-1 flex-col justify-center md:justify-around'>

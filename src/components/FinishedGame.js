@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Chat } from '.'
 
-export const FinishedGame = ({ game }) => {
+export const FinishedGame = ({ game, viewGameBoard }) => {
   console.log(game)
   return <main className='flex-center flex-col'>
     <h1 className='text-3xl mb-2'>Game Over</h1>
@@ -10,6 +10,7 @@ export const FinishedGame = ({ game }) => {
       <strong className='ml-1'>{game.players.map(player => player.name).join(' / ')}</strong>
     </p>
     <p className='mb-4'>Last Round: {game.round.name}</p>
+    <button className='bg-purple-500 rounded px-1 md:p-2 text-white' onClick={viewGameBoard}>View Game Board</button>
     <h2 className='text-2xl mb-2'>Play Order</h2>
     <section className='w-full flex-1 overflow-y-scroll'>
       <ul className='flex flex-col items-stretch pb-4'>

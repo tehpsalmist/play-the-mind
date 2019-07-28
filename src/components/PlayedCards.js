@@ -51,7 +51,7 @@ export const PlayedCards = ({ cards = [], game }) => {
       const offset = measurementLength - ci
       const multiplier = (offset && offset / cardsLength)
       const shiftX = cardsLength * xShift * multiplier
-      const animationName = cardMap[card.value] > Date.now() - 700 ? partnerMap[card.player_id] || '' : ''
+      const animationName = (!game.finished && cardMap[card.value] > Date.now() - 700) && partnerMap[card.player_id] || ''
 
       return <Card
         key={card.value}

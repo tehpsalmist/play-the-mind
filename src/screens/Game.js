@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ApolloConsumer, Subscription } from 'react-apollo'
 import { GamePrepGuest, GamePrepHost, GameBoard, FinishedGame, EventMessage } from '../components'
 import { useAuth0 } from '../auth/Auth'
@@ -6,6 +6,7 @@ import { GAME } from '../queries'
 
 export const Game = ({ match }) => {
   const { user } = useAuth0()
+  const [viewSummary, setViewSummary] = useState(false)
 
   return <ApolloConsumer>
     {client => <>
@@ -20,9 +21,9 @@ export const Game = ({ match }) => {
 
           if (!game.started || !game.round) return isOwner ? <GamePrepHost game={game} /> : <GamePrepGuest game={game} />
 
-          if (game.finished) return <FinishedGame game={game} />
+          if (game.finished && viewSummary) return <FinishedGame game={game} viewGameBoard={() => setViewSummary(false)} />
 
-          return <GameBoard game={game} isOwner={isOwner} />
+          return <GameBoard game={game} isOwner={isOwner} viewSummary={() => setViewSummary(true)} />
         }}
       </Subscription>
       <EventMessage event='play' color='text-green-400' />
