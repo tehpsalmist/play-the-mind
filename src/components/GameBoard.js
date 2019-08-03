@@ -46,6 +46,12 @@ export const GameBoard = ({ game, isOwner, viewSummary }) => {
         detail: '+1 Star!'
       }))
     }
+
+    if (changeHappened(changes, 'finished', null, true)) {
+      dispatchEvent(new CustomEvent('conflict', {
+        detail: 'Game Over!'
+      }))
+    }
   })
 
   const { user } = useAuth0()
