@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Mutation } from 'react-apollo'
 import { Card } from '.'
 import gql from 'graphql-tag'
@@ -19,6 +19,8 @@ const PLAY_CARD = gql`
 `
 
 export const PlayableCard = ({ value, game, player, styles, classes, rotation, shiftX, shiftY }) => {
+  const [hasErrored, setHasErrored] = useState(false)
+
   return <Mutation mutation={PLAY_CARD} variables={{
     gameId: game.id,
     playerId: player.id,
@@ -27,9 +29,12 @@ export const PlayableCard = ({ value, game, player, styles, classes, rotation, s
     cards: `{${player.cards.filter(c => c !== value).join(',')}}`
   }}>
     {(playCard, { error, loading, called }) => {
-      if (error) console.error(error)
+      if (error) {
+        setHasErrored(true)
+        console.error(error)
+      }
 
-      return (!called)
+      return (!called || hasErrored)
         ? <Card
           styles={{ ...styles, transform: `rotate(${rotation}deg) translateX(${shiftX}px) translateY(${shiftY}px)` }}
           classes={`${game.ready ? 'border-green-400' : 'border-black'} ${classes}`}
