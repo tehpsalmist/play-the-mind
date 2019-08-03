@@ -56,6 +56,74 @@ export const GAME = gql`
   }
 `
 
+export const USER_GAMES = gql`
+  subscription games($userId: String) {
+    games(where: {players: {user_id: {_eq: $userId}}}, order_by: {created_at: desc}) {
+      id
+      name
+      player_count
+      players {
+        id
+        name
+        user_id
+      }
+      lives
+      is_full
+      owner_id
+      stars
+      created_at
+      finished
+      started
+      round {
+        id
+        number_of_cards
+        is_blind
+      }
+    }
+  }
+`
+
+export const AVAILABLE_GAMES = gql`
+  subscription games($userId: String) {
+    games(where: {_not: {players: {user_id: {_eq: $userId}}}, is_full: {_eq: false}}, order_by: {created_at: desc}) {
+      id
+      name
+      player_count
+      players {
+        id
+        name
+        user_id
+      }
+      lives
+      is_full
+      stars
+      created_at
+      round {
+        number_of_cards
+        is_blind
+      }
+    }
+  }
+`
+
+export const JOIN_GAME = gql`
+  mutation insert_players($gameId: Int, $name: String) {
+    insert_players(objects: {game_id: $gameId, name: $name}) {
+      returning {
+        id
+      }
+    }
+  }
+`
+
+export const LEAVE_GAME = gql`
+  mutation delete_players($playerId: Int) {
+    delete_players(where: {id: {_eq: $playerId}}) {
+      affected_rows
+    }
+  }
+`
+
 export const GLOBAL_MESSAGES = gql`
   subscription messages {
     messages(where: {game_id: {_is_null: true}}, order_by: {created_at: desc}) {
