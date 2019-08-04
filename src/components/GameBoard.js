@@ -47,7 +47,7 @@ export const GameBoard = ({ game, isOwner, viewSummary }) => {
       }))
     }
 
-    if (changeHappened(changes, 'finished', null, true)) {
+    if (changeHappened(changes, 'finished', false, true)) {
       dispatchEvent(new CustomEvent('conflict', {
         detail: 'Game Over!'
       }))
