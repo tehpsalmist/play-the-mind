@@ -29,7 +29,7 @@
   "homepage": "https://github.com/tehpsalmist/play-the-mind#readme",
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.1.1",
-    "@babel/runtime-corejs2": "^7.5.5",
+    "@babel/runtime-corejs2": "^7.7.4",
     "apollo-boost": "^0.4.4",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
