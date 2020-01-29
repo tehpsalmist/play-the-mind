@@ -1,4 +1,20 @@
 {
   "name": "play-the-mind",
-  "version": 2
+  "version": 2,
+  "routes": [
+    {
+      "src": "/(.+\\.css|.+\\.js)",
+      "methods": [
+        "GET"
+      ],
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "methods": [
+        "GET"
+      ],
+      "dest": "/index.html"
+    }
+  ]
 }
