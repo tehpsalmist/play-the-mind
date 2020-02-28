@@ -52,7 +52,7 @@
     "autoprefixer": "^9.6.1",
     "babel-preset-env": "^1.7.0",
     "parcel-bundler": "^1.12.3",
-    "postcss": "^7.0.26",
+    "postcss": "^7.0.27",
     "tailwindcss": "^1.1.4"
   },
   "browserslist": [
