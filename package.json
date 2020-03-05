@@ -31,7 +31,7 @@
     "@auth0/auth0-spa-js": "^1.6.3",
     "@babel/runtime-corejs2": "^7.8.7",
     "apollo-boost": "^0.4.4",
-    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.4",
     "apollo-link": "^1.2.13",
     "apollo-link-http": "^1.5.16",
