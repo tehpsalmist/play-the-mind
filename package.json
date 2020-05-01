@@ -49,7 +49,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@fullhuman/postcss-purgecss": "^2.0.5",
-    "autoprefixer": "^9.6.1",
+    "autoprefixer": "^9.7.6",
     "babel-preset-env": "^1.7.0",
     "parcel-bundler": "^1.12.3",
     "postcss": "^7.0.27",
