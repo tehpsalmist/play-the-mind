@@ -4,8 +4,8 @@
   "description": "Frontend for The Mind Card Game (unofficial)",
   "main": "index.html",
   "scripts": {
-    "start": "rm -rf dist/ .cache/ && parcel index.html",
-    "build": "parcel build index.html --out-dir=public",
+    "start": "rm -rf dist/ .cache/ && parcel index.html --no-source-maps",
+    "build": "parcel build index.html --out-dir=public --no-source-maps",
     "stage": "npm run build && now && now rm play-the-mind -ys",
     "publish": "now --prod && now rm play-the-mind -ys"
   },
@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/tehpsalmist/play-the-mind#readme",
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.6.3",
+    "@auth0/auth0-spa-js": "^1.7.0",
     "@babel/runtime-corejs2": "^7.8.7",
     "apollo-boost": "^0.4.4",
     "apollo-cache-inmemory": "^1.6.5",
