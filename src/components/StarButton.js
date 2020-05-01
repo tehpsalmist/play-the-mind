@@ -10,7 +10,7 @@ const SUGGESTING_STAR = gql`
   }
 `
 
-export const StarButton = ({ player, game }) => {
+export const StarButton = ({ player, game, className = '' }) => {
   return <Mutation mutation={SUGGESTING_STAR} variables={{
     suggestingStar: !player.suggesting_star,
     playerId: player.id
@@ -21,7 +21,7 @@ export const StarButton = ({ player, game }) => {
       const bg = player.suggesting_star ? 'bg-blue-500' : 'bg-blue-500'
 
       return <button
-        className={`w-auto px-1 shadow-md sm:p-3 ${bg} rounded text-white`}
+        className={`w-auto px-1 shadow-md sm:p-3 ${bg} rounded text-white ${className}`}
         onClick={() => !game.in_conflict && game.stars && toggleSuggestingStar()}
       >
         {player.suggesting_star

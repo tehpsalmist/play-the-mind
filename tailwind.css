@@ -148,6 +148,10 @@ main {
   .flex-center {
     @apply flex justify-center items-center;
   }
+
+  .justify-items-center {
+    justify-items: center;
+  }
 }
 
 @keyframes partner-card-middle {

@@ -14,7 +14,7 @@ export const Lobby = ({ history }) => {
     {client => <>
       <p className='text-center'><em>Play the Mind. Become the Mind.</em></p>
       {!authToken ? <PleaseLogin /> : <>
-        <ul className='w-full flex flex-col items-stretch'>
+        <ul className='w-full flex flex-col items-stretch mb-12'>
           <li className='p-2 text-green-500'>Your Games:</li>
           <Subscription subscription={USER_GAMES} variables={{ userId: user && user.sub }}>
             {({ loading, error, data }) => {

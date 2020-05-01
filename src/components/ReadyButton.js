@@ -10,7 +10,7 @@ const READY = gql`
   }
 `
 
-export const ReadyButton = ({ player }) => {
+export const ReadyButton = ({ player, className = '' }) => {
   return <Mutation mutation={READY} variables={{
     ready: !player.ready,
     playerId: player.id
@@ -21,7 +21,7 @@ export const ReadyButton = ({ player }) => {
       const bg = player.ready ? 'bg-purple-500' : 'bg-purple-500'
 
       return <button
-        className={`w-auto px-1 shadow-md sm:p-3 ${bg} rounded text-white`}
+        className={`w-auto px-1 shadow-md sm:p-3 ${bg} rounded text-white ${className}`}
         onClick={() => toggleReadyState()}
       >
         {player.ready ? 'Let\'s Concentrate' : 'Ok, I\'m Ready!'}
