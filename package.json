@@ -47,7 +47,7 @@
     "subscriptions-transport-ws": "^0.9.16"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.4",
+    "@babel/core": "^7.10.2",
     "@fullhuman/postcss-purgecss": "^2.2.0",
     "autoprefixer": "^9.7.6",
     "babel-preset-env": "^1.7.0",
