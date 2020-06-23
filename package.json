@@ -32,7 +32,7 @@
     "@babel/runtime-corejs2": "^7.10.3",
     "apollo-boost": "^0.4.9",
     "apollo-cache-inmemory": "^1.6.5",
-    "apollo-client": "^2.6.9",
+    "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.13",
     "apollo-link-http": "^1.5.16",
     "apollo-link-ws": "^1.0.19",
