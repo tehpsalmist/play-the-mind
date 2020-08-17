@@ -44,7 +44,7 @@
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.2.0",
     "react-spring": "^8.0.27",
-    "subscriptions-transport-ws": "^0.9.17"
+    "subscriptions-transport-ws": "^0.9.18"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",
