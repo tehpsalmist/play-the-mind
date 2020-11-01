@@ -1,6 +1,11 @@
 module.exports = {
   prefix: '',
-  purge: false,
+  purge: {
+    content: [
+      './src/**/*.html',
+      './src/**/*.tsx'
+    ]
+  },
   important: false,
   separator: ':',
   theme: {

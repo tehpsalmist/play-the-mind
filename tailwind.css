@@ -15,20 +15,20 @@ main {
 
 .card-grid {
   display: grid;
-  grid-template: 20% 1fr 20% / 20% 1fr 20%;
-  grid-template-areas:
-    "top-left . ."
-    "center center center"
-    ". . bottom-right";
+  grid-template:
+    "top-left .      ."            20%
+    "center   center center"       1fr
+    ".        .      bottom-right" 20%
+  / 20%       1fr    20%;
   @apply justify-center items-stretch content-center;
 }
 
 .playing-area-grid {
   display: grid;
-  grid-template: 24px 1fr / 50% 1fr;
-  grid-template-areas:
-    "top-bar top-bar"
-    "partners played-cards";
+  grid-template:
+    "top-bar  top-bar"      24px
+    "partners played-cards" 1fr
+  / 50%       1fr;
   grid-row-gap: 0;
 }
 
@@ -133,7 +133,10 @@ main {
   }
 
   .playing-area-grid {
-    grid-template: 40px 1fr / 400px 1fr;
+    grid-template:
+      "top-bar  top-bar"      40px
+      "partners played-cards" 1fr
+    / 400px     1fr;
     grid-row-gap: 1rem;
   }
 
