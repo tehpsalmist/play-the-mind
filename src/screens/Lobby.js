@@ -35,7 +35,10 @@ export const Lobby = ({ history }) => {
                       <em className='mx-1'>Players:</em>
                       {game.players.map(p => <strong className='mx-1' key={p.id}>{p.name}</strong>)}
                     </span>
-                    <Link className='mr-2 p-2 bg-green-500 text-white rounded' to={`/game/${game.id}`}>
+                    <Link
+                      className={`p-2 ${game.finished ? 'bg-blue-500' : 'bg-green-500'} text-white rounded`}
+                      to={`/game/${game.id}`}
+                    >
                       {game.finished ? 'View' : 'Play'}
                     </Link>
                     {!game.started && <Mutation mutation={LEAVE_GAME}>
@@ -43,7 +46,7 @@ export const Lobby = ({ history }) => {
                         const isOwned = game.owner_id === user.sub
 
                         return <button
-                          className={`p-2 ${loading ? 'bg-gray-600' : isOwned ? 'bg-red-600' : 'bg-orange-500'} text-white rounded`}
+                          className={`p-2 ml-2 ${loading ? 'bg-gray-600' : isOwned ? 'bg-red-600' : 'bg-orange-500'} text-white rounded`}
                           onClick={e => {
                             e.preventDefault()
 
@@ -101,7 +104,7 @@ export const Lobby = ({ history }) => {
                         }
 
                         return <button
-                          className={`p-2 ${loading ? 'bg-gray-600' : 'bg-blue-500'} text-white rounded`}
+                          className={`p-2 ${loading ? 'bg-gray-600' : 'bg-teal-500'} text-white rounded`}
                           onClick={e => {
                             e.preventDefault()
 
