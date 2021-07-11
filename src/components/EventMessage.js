@@ -16,7 +16,6 @@ export const EventMessage = ({ color, event }) => {
     leave: item => async next => {
       await next({ opacity: 0, transform: `translateX(-50%) scale(10)`, config: { ...config, duration: 500 } })
     },
-    expires: 200,
     onRest: (_, __, item) => {
       setMessages(state => state.filter(i => i.key !== item.key))
     }
