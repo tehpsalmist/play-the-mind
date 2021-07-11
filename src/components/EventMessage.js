@@ -6,7 +6,8 @@ const config = { tension: 125, friction: 20, precision: 0.1, duration: 1000 }
 
 export const EventMessage = ({ color, event }) => {
   const [messages, setMessages] = useState([])
-  const transitions = useTransition(messages, m => m.key, {
+  const transitions = useTransition(messages, {
+    keys: m => m.key,
     from: { opacity: 0, transform: 'translateX(-50%) scale(0.5)' },
     enter: item => async next => {
       await next({ opacity: 1, transform: `translateX(-50%) scale(3)`, config: { ...config, duration: 500 } })
@@ -15,7 +16,8 @@ export const EventMessage = ({ color, event }) => {
     leave: item => async next => {
       await next({ opacity: 0, transform: `translateX(-50%) scale(10)`, config: { ...config, duration: 500 } })
     },
-    onRest: item => {
+    expires: 200,
+    onRest: (_, __, item) => {
       setMessages(state => state.filter(i => i.key !== item.key))
     }
   })
@@ -28,5 +30,5 @@ export const EventMessage = ({ color, event }) => {
     return () => removeEventListener(event, callback)
   }, [event, callback])
 
-  return transitions.map(({ key, item, props: { ...style } }) => <animated.h3 key={key} style={style} className={`fixed top-0 left-0 ml-1/2 mt-33vh z-50 ${color}`}>{item.message}</animated.h3>)
+  return transitions((style, item) => <animated.h3 style={style} className={`fixed top-0 left-0 ml-1/2 mt-33vh z-50 ${color}`}>{item.message}</animated.h3>)
 }
